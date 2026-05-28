@@ -153,7 +153,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_gljct")
 }],
 "loop": true,
-"name": &"running_freak",
+"name": &"running_panic",
 "speed": 5.0
 }, {
 "frames": [{
@@ -172,6 +172,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_lmt0n")
 }],
 "loop": true,
-"name": &"standing_freak",
+"name": &"standing_panic",
 "speed": 5.0
 }]

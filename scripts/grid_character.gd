@@ -10,6 +10,9 @@ class_name GridCharacter
 @export var facing: Direction = Direction.SOUTH
 @export var state: State = State.IDLE
 
+@export var anim_idle_name: String = "idle"
+@export var anim_walk_name: String = "walk"
+
 @onready var _sprite = $Sprite as AnimatedSprite2D
 
 enum State {
@@ -95,7 +98,7 @@ func get_look_at_tile() -> Vector2i:
 
 func _ready() -> void:
     if world == null:
-        world = $/root/World
+        world = find_parent("GridWorld")
     
     current_tile_pos = world.tile_map_ground.local_to_map(position)
     target_tile_pos = current_tile_pos
@@ -105,7 +108,7 @@ func _process(delta: float) -> void:
     if _movement_timer > 0 and tile_move_time > 0:
         state = State.MOVING
         _movement_timer -= delta
-        _sprite.animation = "running_calm"
+        _sprite.animation = anim_walk_name
         var tile_move_p = 1 - _movement_timer / tile_move_time
         position = lerp(world.tile_map_ground.map_to_local(previous_tile_pos), world.tile_map_ground.map_to_local(target_tile_pos), tile_move_p)
         if _movement_timer <= 0:
@@ -114,4 +117,4 @@ func _process(delta: float) -> void:
     else:
         state = State.IDLE
         position = world.tile_map_ground.map_to_local(current_tile_pos)
-        _sprite.animation = "standing_calm"
+        _sprite.animation = anim_idle_name

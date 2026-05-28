@@ -1,0 +1,2 @@
+extends GridCharacter
+class_name GridInteractible

@@ -26,12 +26,7 @@ func _ready() -> void:
                 if tiledata.get_collision_polygons_count(0) > 0:
                     set_collision(Vector2i(x, y), true)
                     
-    var grid_characters = find_children("*", "NPC") as Array[NPC]
-    for character in grid_characters:
-        set_collision(character.current_tile_pos, true)
-        set_interactible(character.current_tile_pos, character)
-
-func set_interactible(tile: Vector2i, interactible: NPC):
+func set_interactible(tile: Vector2i, interactible: GridInteractible):
     grid_interaction.set(tile.y * width + tile.x, interactible.get_instance_id())
 
 func set_collision(tile: Vector2i, collide: bool = true):
@@ -42,9 +37,9 @@ func interact(tile: Vector2i) -> bool:
     if interactible_id == 0:
         return false
     var obj = instance_from_id(interactible_id)
-    if obj == null or obj is not NPC:
+    if obj == null or obj is not GridInteractible:
         return false
-    var npc = obj as NPC
+    var npc = obj as GridInteractible
     npc.interact()
     return true
 

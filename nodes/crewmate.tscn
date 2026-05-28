@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bbdv4cub06yy1"]
+
+[ext_resource type="Script" uid="uid://dryhewk74rvkw" path="res://scripts/crewmate.gd" id="1_sqbca"]
+[ext_resource type="SpriteFrames" uid="uid://xlroxwqmj5up" path="res://sprites/crewmate_anim.tres" id="2_aspqa"]
+[ext_resource type="Texture2D" uid="uid://s3n4aj5a2i2" path="res://sprites/kairos_ui.png" id="3_d85nh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uj1ti"]
+texture = ExtResource("3_d85nh")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(1, 17, 11, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_riheq"]
+texture = ExtResource("3_d85nh")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(12, 0, 11, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j01w6"]
+texture = ExtResource("3_d85nh")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(1, 1, 11, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uea1m"]
+texture = ExtResource("3_d85nh")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(12, 0, 11, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q5ef1"]
+texture = ExtResource("3_d85nh")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(1, 1, 11, 13)
+
+[node name="Crewmate" type="Node2D" unique_id=33338459]
+z_index = 5
+texture_filter = 1
+script = ExtResource("1_sqbca")
+anim_idle_name = "standing_panic"
+anim_walk_name = "running_calm"
+metadata/_custom_type_script = "uid://dl0txcjuewfuo"
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=767632798]
+sprite_frames = ExtResource("2_aspqa")
+animation = &"standing_calm"
+autoplay = "standing_calm"
+
+[node name="SelectButton" type="Button" parent="." unique_id=425101492]
+z_index = 20
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 5.0
+offset_bottom = 7.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_uj1ti")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_riheq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_j01w6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_uea1m")
+theme_override_styles/focus = SubResource("StyleBoxTexture_q5ef1")
+
+[connection signal="button_up" from="SelectButton" to="." method="select_crewmate"]
