@@ -5,8 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://bbdv4cub06yy1" path="res://nodes/crewmate.tscn" id="4_8mm7a"]
 [ext_resource type="TileSet" uid="uid://dv21hodrtlyj8" path="res://sprites/kairos_tiles.tres" id="4_d5x1h"]
 
+[sub_resource type="Environment" id="Environment_d5x1h"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 3.0
+glow_hdr_threshold = 0.0
+
 [node name="MainScene" type="Node2D" unique_id=821874254]
 texture_filter = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1092095210]
+environment = SubResource("Environment_d5x1h")
 
 [node name="GameState" type="Node" parent="." unique_id=2006381693 node_paths=PackedStringArray("world")]
 script = ExtResource("1_d5x1h")
@@ -30,23 +39,9 @@ tile_set = ExtResource("4_d5x1h")
 
 [node name="Crewmate" parent="GridWorld" unique_id=33338459 instance=ExtResource("4_8mm7a")]
 position = Vector2(136, 94)
-is_player = false
-current_tile_pos = Vector2i(0, 0)
-target_tile_pos = Vector2i(0, 0)
-previous_tile_pos = Vector2i(0, 0)
-tile_move_time = 0.48
-facing = 2
-state = 0
 
 [node name="Crewmate2" parent="GridWorld" unique_id=1396341239 instance=ExtResource("4_8mm7a")]
 position = Vector2(177, 117)
-is_player = false
-current_tile_pos = Vector2i(0, 0)
-target_tile_pos = Vector2i(0, 0)
-previous_tile_pos = Vector2i(0, 0)
-tile_move_time = 0.48
-facing = 2
-state = 0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1773385585]
 position = Vector2(143, 81)
