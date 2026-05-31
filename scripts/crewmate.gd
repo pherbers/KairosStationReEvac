@@ -7,8 +7,8 @@ var game: GameState
 func _ready():
     super()
     game = $/root/MainScene/GameState
-    game.playStateChanged.connect(playStateChanged)
-    playStateChanged(game.playState)
+    game.on_play_state_changed.connect(playStateChanged)
+    playStateChanged(game.play_state)
 
 func playStateChanged(playState):
     if playState == GameState.PlayState.PLAY:
@@ -31,10 +31,10 @@ func playStateChanged(playState):
         anim_walk_name = "running_calm"
 
 func select_crewmate():
-    if game.playState == GameState.PlayState.SELECT:
+    if game.play_state == GameState.PlayState.SELECT:
         is_in_control = true
         game.selected_crewmate = self
-        game.playState = GameState.PlayState.PLAY
+        game.play_state = GameState.PlayState.PLAY
 
 func _process(delta: float) -> void:
     super._process(delta)

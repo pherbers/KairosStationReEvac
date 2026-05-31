@@ -25,9 +25,9 @@ enum Direction {
 
 var _movement_timer: float = 0.
 
-func move(dir: Direction):
+func move(dir: Direction) -> bool:
     if state != State.IDLE:
-        return
+        return false
     var move_d: Vector2i
     match dir:
         Direction.NORTH:
@@ -42,7 +42,7 @@ func move(dir: Direction):
             move_d = Vector2i.ZERO
     
     facing = dir
-    go_to_tile(current_tile_pos + move_d)
+    return go_to_tile(current_tile_pos + move_d)
     
 func go_to_tile(tile: Vector2i, collide=true) -> bool:
     var in_bounds = world.tile_map_ground.get_used_rect().has_point(tile)

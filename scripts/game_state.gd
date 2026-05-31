@@ -5,49 +5,74 @@ enum PlayState {
     SELECT, PLAY, REPLAY
 }
 
-signal playStateChanged(newState: PlayState)
+enum {
+    ACTION_MOVE_NORTH, ACTION_MOVE_WEST, ACTION_MOVE_SOUTH, ACTION_MOVE_EAST, ACTION_INTERACT
+}
 
-@export var playState: PlayState:
-    set (newValue):
-        playState = newValue
-        playStateChanged.emit(playState)
-        print("New Play State: " + str(playState))
+signal on_play_state_changed(new_state: PlayState)
+signal on_countdown_changed(ticks_left: int)
+
+@export var play_state: PlayState:
+    set (new_value):
+        var old_value = play_state
+        play_state = new_value
+        _play_state_changed(old_value, new_value)
 
 @export var world: GridWorld
 
+@export var countdown_max = 10
+@export var countdown = 0
 # Crewmate control
 @export var selected_crewmate: Crewmate = null
 var _move_input_queue: int = -1
 var _last_input: int = -1
 
 func _process(delta: float) -> void:
-    if playState == PlayState.PLAY:
+    if play_state == PlayState.PLAY:
         _process_play(delta)
 
 func _process_play(_delta: float):
     if selected_crewmate != null:
         _move_crewmate()
     else:
-        playState = PlayState.SELECT
+        play_state = PlayState.SELECT
 
 func _move_crewmate():
-    var move_dir = -1
+    var action = -1
     if Input.is_action_pressed("North")     or Input.is_action_just_pressed("North"):
-        move_dir = GridCharacter.Direction.NORTH
+        action = ACTION_MOVE_NORTH
     elif Input.is_action_pressed("South")   or Input.is_action_just_pressed("South"):
-        move_dir = GridCharacter.Direction.SOUTH
+        action = ACTION_MOVE_SOUTH
     elif Input.is_action_pressed("East")    or Input.is_action_just_pressed("East"):
-        move_dir = GridCharacter.Direction.EAST
+        action = ACTION_MOVE_EAST
     elif Input.is_action_pressed("West")    or Input.is_action_just_pressed("West"):
-        move_dir = GridCharacter.Direction.WEST
-    if selected_crewmate.state == GridCharacter.State.MOVING and move_dir >= 0 and move_dir != _last_input:
-        _move_input_queue = move_dir
+        action = ACTION_MOVE_WEST
+    if Input.is_action_just_pressed("Interact"):
+        action = ACTION_INTERACT
+    if selected_crewmate.state == GridCharacter.State.MOVING and action >= 0 and action != _last_input:
+        _move_input_queue = action
     if _move_input_queue >= 0:
-        move_dir = _move_input_queue
-    if move_dir >= 0 and selected_crewmate.state != GridCharacter.State.MOVING:
-        _last_input = move_dir
+        action = _move_input_queue
+    if action >= ACTION_MOVE_NORTH and selected_crewmate.state != GridCharacter.State.MOVING:
+        _last_input = action
         _move_input_queue = -1
-        selected_crewmate.move(move_dir)
-    if Input.is_action_just_pressed("Interact") and selected_crewmate.state == GridCharacter.State.IDLE:
-        world.interact(selected_crewmate.get_look_at_tile())
-    
+        var success = false
+        if action <= ACTION_MOVE_EAST:
+            success = selected_crewmate.move(action)
+        elif action == ACTION_INTERACT:
+            success = world.interact(selected_crewmate.get_look_at_tile())
+        
+        # only count down if actually interacted or moved
+        if success:
+            _countdown_tick()
+
+func _countdown_tick():
+    countdown -= 1
+    on_countdown_changed.emit(countdown)
+
+func _play_state_changed(old_state, new_state):
+    if new_state == PlayState.PLAY and old_state != PlayState.PLAY:
+        countdown = countdown_max
+        on_countdown_changed.emit(countdown)
+    on_play_state_changed.emit(new_state)
+    print("New Play State: " + str(play_state))
