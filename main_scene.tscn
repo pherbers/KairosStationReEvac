@@ -23,6 +23,10 @@ script = ExtResource("1_d5x1h")
 world = NodePath("../GridWorld")
 metadata/_custom_type_script = "uid://i5bp4trdxi4x"
 
+[node name="ExplosionTimer" type="Timer" parent="GameState" unique_id=1272020234]
+wait_time = 2.0
+one_shot = true
+
 [node name="GridWorld" type="Node2D" parent="." unique_id=1713533503 node_paths=PackedStringArray("tile_map_ground", "tile_map_collide")]
 script = ExtResource("3_8mm7a")
 tile_map_ground = NodePath("Ground")
@@ -61,3 +65,5 @@ offset_top = 11.0
 offset_right = 56.0
 offset_bottom = 34.0
 script = ExtResource("5_8mm7a")
+
+[connection signal="timeout" from="GameState/ExplosionTimer" to="GameState" method="reset_play_state"]

@@ -11,6 +11,7 @@ enum {
 
 signal on_play_state_changed(new_state: PlayState)
 signal on_countdown_changed(ticks_left: int)
+signal on_explosion()
 
 @export var play_state: PlayState:
     set (new_value):
@@ -20,18 +21,27 @@ signal on_countdown_changed(ticks_left: int)
 
 @export var world: GridWorld
 
-@export var countdown_max = 10
+@export var countdown_max = 20
 @export var countdown = 0
+
 # Crewmate control
 @export var selected_crewmate: Crewmate = null
 var _move_input_queue: int = -1
 var _last_input: int = -1
+
+var crewmates: Array
+
+func _ready():
+    crewmates = get_tree().current_scene.find_children("*", "Crewmate") as Array
 
 func _process(delta: float) -> void:
     if play_state == PlayState.PLAY:
         _process_play(delta)
 
 func _process_play(_delta: float):
+    if countdown <= 0:
+        # everything explode !!!
+        return
     if selected_crewmate != null:
         _move_crewmate()
     else:
@@ -69,10 +79,21 @@ func _move_crewmate():
 func _countdown_tick():
     countdown -= 1
     on_countdown_changed.emit(countdown)
+    if countdown == 0:
+        $ExplosionTimer.start()
+        on_explosion.emit()
 
 func _play_state_changed(old_state, new_state):
     if new_state == PlayState.PLAY and old_state != PlayState.PLAY:
         countdown = countdown_max
         on_countdown_changed.emit(countdown)
+    if new_state == PlayState.SELECT:
+        countdown = countdown_max
+        for c in crewmates:
+            c.reset_crewmate()
+            
     on_play_state_changed.emit(new_state)
     print("New Play State: " + str(play_state))
+
+func reset_play_state():
+    play_state = PlayState.SELECT

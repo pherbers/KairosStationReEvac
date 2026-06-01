@@ -3,9 +3,13 @@ class_name Crewmate
 
 var game: GameState
 @export var is_in_control = false
+var _initial_position: Vector2i
 
 func _ready():
     super()
+    
+    _initial_position = current_tile_pos
+    
     game = $/root/MainScene/GameState
     game.on_play_state_changed.connect(playStateChanged)
     playStateChanged(game.play_state)
@@ -39,3 +43,5 @@ func select_crewmate():
 func _process(delta: float) -> void:
     super._process(delta)
     
+func reset_crewmate():
+    current_tile_pos = _initial_position
