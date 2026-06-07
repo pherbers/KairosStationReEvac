@@ -1,9 +1,6 @@
-extends Node2D
+extends GridEntity
 class_name GridCharacter
 
-@export var world: GridWorld
-
-@export var current_tile_pos: Vector2i
 @export var target_tile_pos: Vector2i
 @export var previous_tile_pos: Vector2i
 @export var tile_move_time: float = 0.96/2
@@ -56,6 +53,10 @@ func go_to_tile(tile: Vector2i, collide=true) -> bool:
     previous_tile_pos = current_tile_pos
     _movement_timer = tile_move_time
     
+    # set collision lock on target tile
+    if blocking:
+        world._add_collision(target_tile_pos)
+    
     return true
 
     
@@ -97,10 +98,8 @@ func get_look_at_tile() -> Vector2i:
     return current_tile_pos + d
 
 func _ready() -> void:
-    if world == null:
-        world = find_parent("GridWorld")
+    super()
     
-    current_tile_pos = world.tile_map_ground.local_to_map(position)
     target_tile_pos = current_tile_pos
     previous_tile_pos = current_tile_pos
 
@@ -112,9 +111,15 @@ func _process(delta: float) -> void:
         var tile_move_p = 1 - _movement_timer / tile_move_time
         position = lerp(world.tile_map_ground.map_to_local(previous_tile_pos), world.tile_map_ground.map_to_local(target_tile_pos), tile_move_p)
         if _movement_timer <= 0:
-            current_tile_pos = target_tile_pos
+            world._remove_collision(target_tile_pos)  # release lock on target tile
             state = State.IDLE
+            current_tile_pos = target_tile_pos
     else:
         state = State.IDLE
         position = world.tile_map_ground.map_to_local(current_tile_pos)
         _sprite.animation = anim_idle_name
+
+func _exit_tree() -> void:
+    if state == State.MOVING and blocking:
+        # remove remaining locks
+        world._remove_collision(target_tile_pos)

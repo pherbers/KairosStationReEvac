@@ -1,10 +1,11 @@
 [gd_scene format=4 uid="uid://x8gia4vioagb"]
 
 [ext_resource type="Script" uid="uid://i5bp4trdxi4x" path="res://scripts/game_state.gd" id="1_d5x1h"]
-[ext_resource type="Script" uid="uid://c7g268ahkyh80" path="res://scripts/grid_world.gd" id="3_8mm7a"]
+[ext_resource type="Script" uid="uid://c7g268ahkyh80" path="res://scripts/gridworld/grid_world.gd" id="2_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://bbdv4cub06yy1" path="res://nodes/crewmate.tscn" id="4_8mm7a"]
 [ext_resource type="TileSet" uid="uid://dv21hodrtlyj8" path="res://sprites/kairos_tiles.tres" id="4_d5x1h"]
 [ext_resource type="Script" uid="uid://brdtfedpck4e8" path="res://scripts/ui_countdown.gd" id="5_8mm7a"]
+[ext_resource type="PackedScene" uid="uid://dxbb206g2t702" path="res://nodes/fire.tscn" id="5_hq1ik"]
 
 [sub_resource type="Environment" id="Environment_d5x1h"]
 background_mode = 3
@@ -28,7 +29,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="GridWorld" type="Node2D" parent="." unique_id=1713533503 node_paths=PackedStringArray("tile_map_ground", "tile_map_collide")]
-script = ExtResource("3_8mm7a")
+script = ExtResource("2_hq1ik")
 tile_map_ground = NodePath("Ground")
 tile_map_collide = NodePath("Walls")
 metadata/_custom_type_script = "uid://c7g268ahkyh80"
@@ -47,6 +48,9 @@ position = Vector2(136, 94)
 
 [node name="Crewmate2" parent="GridWorld" unique_id=1396341239 instance=ExtResource("4_8mm7a")]
 position = Vector2(177, 117)
+
+[node name="Fire" parent="GridWorld" unique_id=2110378399 instance=ExtResource("5_hq1ik")]
+position = Vector2(149, 93)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1773385585]
 position = Vector2(240, 135)

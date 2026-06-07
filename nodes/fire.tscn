@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dxbb206g2t702"]
+
+[ext_resource type="Script" uid="uid://gjrgxb2t12jk" path="res://scripts/grid_fire.gd" id="1_asmdj"]
+[ext_resource type="SpriteFrames" uid="uid://clhollyhevkhb" path="res://sprites/fire_anim.tres" id="2_bfal7"]
+
+[node name="Fire" type="Node2D" unique_id=2110378399]
+script = ExtResource("1_asmdj")
+metadata/_custom_type_script = "uid://dl0txcjuewfuo"
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1838960073]
+sprite_frames = ExtResource("2_bfal7")
+animation = &"explosion"
+autoplay = "explosion"

@@ -1,0 +1,79 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://clhollyhevkhb"]
+
+[ext_resource type="Texture2D" uid="uid://barlgnrixlp4l" path="res://sprites/kairos_tiles.png" id="1_emwnx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n7gl"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(228, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyjwq"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(240, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ks08s"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(252, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66vnm"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(264, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1ed5"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(276, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7moy"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(252, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyfei"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(264, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nev13"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(276, 72, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a02jh"]
+atlas = ExtResource("1_emwnx")
+region = Rect2(288, 72, 12, 12)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1n7gl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyjwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ks08s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66vnm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1ed5")
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7moy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyfei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nev13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a02jh")
+}],
+"loop": true,
+"name": &"fire_loop",
+"speed": 3.0
+}]
