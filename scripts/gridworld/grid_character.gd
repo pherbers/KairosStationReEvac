@@ -10,7 +10,12 @@ class_name GridCharacter
 @export var anim_idle_name: String = "idle"
 @export var anim_walk_name: String = "walk"
 
+@export var hflip_walk_anim = true
+
 @onready var _sprite = $Sprite as AnimatedSprite2D
+
+signal on_move_start(from_tile: Vector2i)
+signal on_move_finished(to_tile: Vector2i)
 
 enum State {
     IDLE, MOVING
@@ -33,8 +38,10 @@ func move(dir: Direction) -> bool:
             move_d = Vector2i.DOWN
         Direction.WEST:
             move_d = Vector2i.LEFT
+            _sprite.flip_h = true
         Direction.EAST:
             move_d = Vector2i.RIGHT
+            _sprite.flip_h = false
         _:
             move_d = Vector2i.ZERO
     
@@ -56,7 +63,7 @@ func go_to_tile(tile: Vector2i, collide=true) -> bool:
     # set collision lock on target tile
     if blocking:
         world._add_collision(target_tile_pos)
-    
+    on_move_start.emit(previous_tile_pos)
     return true
 
     
@@ -75,12 +82,14 @@ func face_towards(tile: Vector2i):
         return
     if look_delta.x < look_delta.y and look_delta.x < -look_delta.y:
         facing = Direction.EAST
+        _sprite.flip_h = false
     elif look_delta.x < look_delta.y and look_delta.x > -look_delta.y:
         facing = Direction.NORTH
     elif look_delta.x > look_delta.y and look_delta.x < -look_delta.y:
         facing = Direction.SOUTH
     elif look_delta.x > look_delta.y and look_delta.x > -look_delta.y:
         facing = Direction.WEST
+        _sprite.flip_h = true
 
 func get_look_at_tile() -> Vector2i:
     var d
@@ -114,6 +123,7 @@ func _process(delta: float) -> void:
             world._remove_collision(target_tile_pos)  # release lock on target tile
             state = State.IDLE
             current_tile_pos = target_tile_pos
+            on_move_finished.emit(current_tile_pos)
     else:
         state = State.IDLE
         position = world.tile_map_ground.map_to_local(current_tile_pos)

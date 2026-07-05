@@ -5,9 +5,12 @@
 
 [node name="Fire" type="Node2D" unique_id=2110378399]
 script = ExtResource("1_asmdj")
+blocking = false
 metadata/_custom_type_script = "uid://dl0txcjuewfuo"
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1838960073]
 sprite_frames = ExtResource("2_bfal7")
-animation = &"explosion"
-autoplay = "explosion"
+animation = &"fire_loop"
+autoplay = "fire_loop"
+
+[connection signal="animation_finished" from="Sprite" to="Sprite" method="play" flags=6 binds= ["fire_loop"]]

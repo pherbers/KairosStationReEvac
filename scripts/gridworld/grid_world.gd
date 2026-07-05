@@ -82,3 +82,7 @@ func interact(tile: Vector2i) -> bool:
 
 func check_collision(tile: Vector2i) -> bool:
     return grid_occupancy.decode_u8(tile.y * width + tile.x) > 0
+
+func get_entities_at_tile(tile: Vector2i) -> Array[GridEntity]:
+    # could be improved
+    return entities.values().filter(func(e): return e.current_tile_pos == tile)

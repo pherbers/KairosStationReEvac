@@ -2,7 +2,7 @@ extends Node
 class_name GameState
 
 enum PlayState {
-    SELECT, PLAY, REPLAY
+    SELECT, PLAY, REPLAY, EXPLODE
 }
 
 enum {
@@ -91,9 +91,15 @@ func _play_state_changed(old_state, new_state):
         countdown = countdown_max
         for c in crewmates:
             c.reset_crewmate()
-            
+    if new_state == PlayState.EXPLODE:
+        explode()
+
     on_play_state_changed.emit(new_state)
     print("New Play State: " + str(play_state))
 
 func reset_play_state():
+    play_state = PlayState.SELECT
+
+func explode():
+    await get_tree().create_timer(2.).timeout
     play_state = PlayState.SELECT

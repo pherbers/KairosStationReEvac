@@ -12,10 +12,11 @@ class_name GridEntity
 
 @export var blocking = true:
     set(value):
-        if blocking == true and value == false:
-            world._remove_collision(current_tile_pos)
-        if blocking == false and value == true:
-            world._add_collision(current_tile_pos)
+        if world:
+            if blocking == true and value == false:
+                world._remove_collision(current_tile_pos)
+            if blocking == false and value == true:
+                world._add_collision(current_tile_pos)
         blocking = value
 
 signal on_tile_changed(entity: GridEntity, old_pos: Vector2i, new_pos: Vector2i)
@@ -26,6 +27,13 @@ func _ready() -> void:
     
     current_tile_pos = world.tile_map_ground.local_to_map(position)
     world.register_entity(self)
+    _spawn()
 
 func _process(_delta: float) -> void:
+    fix_to_grid()
+
+func fix_to_grid():
     position = world.tile_map_ground.map_to_local(current_tile_pos)
+
+func _spawn():
+    pass

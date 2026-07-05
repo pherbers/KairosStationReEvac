@@ -52,6 +52,10 @@ position = Vector2(177, 117)
 [node name="Fire" parent="GridWorld" unique_id=2110378399 instance=ExtResource("5_hq1ik")]
 position = Vector2(149, 93)
 
+[node name="Fire2" parent="GridWorld" unique_id=661439381 instance=ExtResource("5_hq1ik")]
+position = Vector2(198, 116)
+spawn_tick = 5
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1773385585]
 position = Vector2(240, 135)
 
